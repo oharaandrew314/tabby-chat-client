@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:tabbychat_ui_flutter/chat.dart';
+import 'package:tabbychat_ui_flutter/screens/chatScreen.dart';
 
-import 'package:tabbychat_ui_flutter/dtos.dart';
-import "package:tabbychat_ui_flutter/dtoExtensions.dart";
+import 'package:tabbychat_ui_flutter/model/dtos.dart';
+import 'package:tabbychat_ui_flutter/model/dtoExtensions.dart';
 
-class ContactListPage extends StatelessWidget {
+class ContactListScreen extends StatelessWidget {
   final List<ContactDto> contacts;
 
-  ContactListPage({required this.contacts, Key? key}): super(key: key);
+  ContactListScreen({required this.contacts, Key? key}): super(key: key);
 
   @override
-  Widget build(BuildContext contact) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("TabbyChat")
@@ -18,7 +18,21 @@ class ContactListPage extends StatelessWidget {
       body: ListView.builder(
           itemCount: contacts.length,
           itemBuilder: (_, index) {
-            return ContactItem(contact: contacts[index]);
+            final contact = contacts[index];
+            return ContactItem(
+                contact: contact,
+              onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) {
+                        return ChatScreen(you: you, contact: contact, messages: sampleMessages);
+                        // return ChatPage(contact: contact, messages: sampleMessages);
+                      }
+                  )
+              );
+            },
+            );
           }
       ),
     );
@@ -27,22 +41,19 @@ class ContactListPage extends StatelessWidget {
 
 class ContactItem extends StatelessWidget {
   final ContactDto contact;
+  final VoidCallback? onPressed;
 
-  ContactItem({required this.contact, Key? key}): super(key: key);
+  ContactItem({
+    required this.contact,
+    this.onPressed,
+    Key? key
+  }
+      ): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) {
-                    return ChatPage(contact: contact, messages: sampleMessages);
-                  }
-              )
-          );
-        },
+        onPressed: onPressed,
         child: Row(
           children: [
             Container(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tabbychat_ui_flutter/contactList.dart';
-import 'package:tabbychat_ui_flutter/dtos.dart';
+import 'package:tabbychat_ui_flutter/screens/contactListScreen.dart';
+import 'package:tabbychat_ui_flutter/model/dtos.dart';
 
 import 'package:tabbychat_ui_flutter/main.dart';
 

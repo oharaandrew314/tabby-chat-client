@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tabbychat_ui_flutter/dtos.dart';
-import 'package:tabbychat_ui_flutter/dtoExtensions.dart';
+import 'package:tabbychat_ui_flutter/model/dtos.dart';
+import 'package:tabbychat_ui_flutter/model/dtoExtensions.dart';
 
 void main() {
   test('displayName of contact without middle name', () {

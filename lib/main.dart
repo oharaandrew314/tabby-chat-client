@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:tabbychat_ui_flutter/contactList.dart';
-import 'package:tabbychat_ui_flutter/dtos.dart';
+import 'package:tabbychat_ui_flutter/screens/contactListScreen.dart';
+import 'package:tabbychat_ui_flutter/model/dtos.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TabbyChat',
-      home: ContactListPage(contacts: dtos)
+      home: ContactListScreen(contacts: sampleContacts)
     );
   }
 }
