@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tabbychat_ui_flutter/dao/chatDao.dart';
-import 'package:tabbychat_ui_flutter/dao/jdbcChatDao.dart';
+import 'package:tabbychat_ui_flutter/dao/sqlChatDao.dart';
 import 'package:tabbychat_ui_flutter/model/dtos.dart';
 import 'package:tabbychat_ui_flutter/model/profile.dart';
 
 import 'package:tabbychat_ui_flutter/screens/ConversationsListScreen.dart';
 
 void main() async {
-  final dao = await JdbcChatDao.create();
+  final dao = await SqlChatDao.create();
 
   final profile = await dao.getProfile();
   if (profile == null) {

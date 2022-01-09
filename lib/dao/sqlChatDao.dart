@@ -6,10 +6,10 @@ import 'package:tabbychat_ui_flutter/model/profile.dart';
 import 'package:tabbychat_ui_flutter/model/conversation.dart';
 import 'package:tabbychat_ui_flutter/model/dtos.dart';
 
-class JdbcChatDao implements ChatDao {
+class SqlChatDao implements ChatDao {
   final DatabaseExecutor db;
 
-  JdbcChatDao({
+  SqlChatDao({
     required this.db
   });
 
@@ -69,7 +69,7 @@ class JdbcChatDao implements ChatDao {
       version: 1,
     );
 
-    return JdbcChatDao(db: db);
+    return SqlChatDao(db: db);
   }
 
   Future<void> saveMessage(MessageDto message) async {
