@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tabbychat_ui_flutter/model/dtos.dart';
-import 'package:tabbychat_ui_flutter/model/dtoExtensions.dart';
 
 class UserIcon extends StatelessWidget {
   final UserDto user;
@@ -13,7 +12,7 @@ class UserIcon extends StatelessWidget {
     if (user.iconUri != null) {
       widget = Image.network(user.iconUri!);
     } else {
-      widget = Text(user.displayName());
+      widget = Text(user.firstName);
     }
 
     return CircleAvatar(

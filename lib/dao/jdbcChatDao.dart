@@ -193,7 +193,8 @@ class JdbcChatDao implements ChatDao {
   UserDto _toUserDto(Map<String, dynamic> row) => UserDto(
     id: row['id'],
     firstName: row['firstName'],
-    lastName: row['lastName']
+    lastName: row['lastName'],
+    iconUri: row['iconUri']
   );
 
   DateTime? _toDateTime(Object? value) => value is String ? DateTime.parse(value) : null;

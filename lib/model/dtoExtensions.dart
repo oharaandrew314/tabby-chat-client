@@ -1,14 +1,6 @@
 import 'package:tabbychat_ui_flutter/model/dtos.dart';
 
 extension UserDtoExtensions on UserDto {
-  String displayName() {
-    final buffer = StringBuffer();
-    buffer.write(firstName);
-    buffer.write(" ");
-    buffer.write(lastName);
-
-    return buffer.toString();
-  }
 
   Map<String, dynamic> toJson() => {
     "id": id,
