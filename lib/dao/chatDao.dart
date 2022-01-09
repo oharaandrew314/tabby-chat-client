@@ -1,4 +1,3 @@
-import 'package:tabbychat_ui_flutter/model/profile.dart';
 import 'package:tabbychat_ui_flutter/model/conversation.dart';
 import 'package:tabbychat_ui_flutter/model/dtos.dart';
 
@@ -11,9 +10,6 @@ abstract class ChatDao {
 
   Future<void> saveConversation(ConversationDto conversation);
   Future<List<Conversation>> getConversations();
-
-  Future<void> setProfile(Profile profile);
-  Future<Profile?> getProfile();
 
   Future<void> clear();
 }

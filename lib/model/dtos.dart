@@ -59,8 +59,8 @@ class MessageDto {
 }
 
 final sampleConversations = [
-  ConversationDto(id: Uuid().v4(), name: 'Lauren', userIds: [lauren.id]),
-  ConversationDto(id: Uuid().v4(), name: "Toggles", userIds: [toggles.id])
+  ConversationDto(id: Uuid().v4(), name: 'Lauren', userIds: [sampleYou.id, lauren.id]),
+  ConversationDto(id: Uuid().v4(), name: "Toggles", userIds: [sampleYou.id, toggles.id])
 ];
 
 final sampleMessages = [

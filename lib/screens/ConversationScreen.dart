@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:tabbychat_ui_flutter/dao/chatDao.dart';
 import 'package:tabbychat_ui_flutter/model/conversation.dart';
 import 'package:tabbychat_ui_flutter/model/dtos.dart';
+import 'package:tabbychat_ui_flutter/model/profile.dart';
 import 'package:tabbychat_ui_flutter/widgets/conversationView.dart';
 import 'package:tabbychat_ui_flutter/widgets/conversationHeader.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as chat;
 import 'package:uuid/uuid.dart';
 
 class ChatScreen extends StatefulWidget {
+  final Profile profile;
   final Conversation conversation;
   final ChatDao dao;
 
   ChatScreen({
+    required this.profile,
     required this.conversation,
     required this.dao,
     Key? key,
@@ -48,7 +51,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void _handleSendPressed(chat.PartialText data) {
     final message = MessageDto(
         id: Uuid().v4(),
-        authorId: widget.conversation.you.id,
+        authorId: widget.profile.userId,
         conversationId: widget.conversation.id,
         created: DateTime.now(),
         contentType: 'text/plain',
@@ -62,9 +65,13 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: ConversationHeader(conversation: widget.conversation),
+        title: ConversationHeader(
+            profile: widget.profile,
+            conversation: widget.conversation
+        ),
       ),
       body: ConversationView(
+        profile: widget.profile,
         conversation: widget.conversation,
         messages: _messages,
         handleSendPressed: _handleSendPressed,

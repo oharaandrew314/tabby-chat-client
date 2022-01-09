@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:tabbychat_ui_flutter/model/conversation.dart';
 import 'package:tabbychat_ui_flutter/model/dtos.dart';
+import 'package:tabbychat_ui_flutter/model/profile.dart';
 import 'package:tabbychat_ui_flutter/widgets/userIcon.dart';
 
 class ConversationHeader extends StatelessWidget {
+  final Profile profile;
   final Conversation conversation;
   final VoidCallback? onPressed;
 
   ConversationHeader({
+    required this.profile,
     required this.conversation,
     this.onPressed,
     Key? key
@@ -17,7 +20,7 @@ class ConversationHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserDto? primaryContact = conversation.users
-        .firstWhere((u) => u.id != conversation.you.id, orElse: null);
+        .firstWhere((u) => u.id != profile.userId, orElse: null);
 
     return TextButton(
       onPressed: onPressed,

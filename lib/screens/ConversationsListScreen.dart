@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:tabbychat_ui_flutter/dao/chatDao.dart';
 import 'package:tabbychat_ui_flutter/model/conversation.dart';
+import 'package:tabbychat_ui_flutter/model/profile.dart';
 import 'package:tabbychat_ui_flutter/screens/ConversationScreen.dart';
 import 'package:tabbychat_ui_flutter/widgets/ConversationList.dart';
 
 class ConversationListScreen extends StatefulWidget {
   final ChatDao dao;
+  final Profile profile;
 
   ConversationListScreen({
     required this.dao,
+    required this.profile,
     Key? key
   }): super(key: key);
 
@@ -40,19 +43,21 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
         title: const Text("TabbyChat")
       ),
       body: ConversationList(
-          conversations: _conversations,
+        profile: widget.profile,
+        conversations: _conversations,
         handleConversationPressed: (conversation) => Navigator.push(context, _createChatRoute(conversation))
       )
     );
   }
 
   Route _createChatRoute(Conversation conversation) => PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => ChatScreen(conversation: conversation, dao: widget.dao),
+    pageBuilder: (context, animation, secondaryAnimation) => ChatScreen(
+        profile: widget.profile,
+        conversation: conversation,
+        dao: widget.dao
+    ),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return child;
     }
   );
 }
-
-
-

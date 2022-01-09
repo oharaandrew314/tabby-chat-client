@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tabbychat_ui_flutter/dao/chatDao.dart';
-import 'package:tabbychat_ui_flutter/model/profile.dart';
 import 'package:tabbychat_ui_flutter/model/conversation.dart';
 import 'package:tabbychat_ui_flutter/model/dtos.dart';
 
@@ -12,15 +11,6 @@ class SqlChatDao implements ChatDao {
   SqlChatDao({
     required this.db
   });
-
-  static const _createAuth = """
-    CREATE TABLE auth (
-      id CHAR(36) NOT NULL,
-      realm TEXT NOT NULL,
-      token TEXT NOT NULL,
-     FOREIGN KEY(id) REFERENCES users(id)
-    );
-  """;
 
   static const _createUsers = """
     CREATE TABLE users (
@@ -56,12 +46,13 @@ class SqlChatDao implements ChatDao {
   """;
 
   static Future<ChatDao> create() async {
+    print('init database');
     WidgetsFlutterBinding.ensureInitialized();
 
     final db = await openDatabase(
       join(await getDatabasesPath(), "tabbychat.db"),
       onCreate: (db, version) async {
-        await db.execute(_createAuth);
+        print('create database');
         await db.execute(_createUsers);
         await db.execute(_createConversations);
         await db.execute(_createMessages);
@@ -109,44 +100,7 @@ class SqlChatDao implements ChatDao {
     );
   }
 
-  Future<void> setProfile(Profile profile) async {
-    await saveUser(profile.user);
-    await db.insert(
-        "auth",
-        {
-          'id': profile.user.id,
-          'realm': profile.realm,
-          'token': profile.token
-        },
-        conflictAlgorithm: ConflictAlgorithm.fail
-      );
-  }
-
-  Future<Profile?> getProfile() async {
-    final authRows = await db.query("auth", limit: 1);
-    if (authRows.isEmpty) return null;
-
-    final authRow = authRows.first;
-
-    final userRows = await db.query(
-      'users',
-      where: 'id = ?',
-      whereArgs: [authRow['id']],
-      limit: 1
-    );
-    if (userRows.isEmpty) return null;
-
-    return Profile(
-        user: _toUserDto(userRows.first),
-        token: authRow['token'] as String,
-        realm: authRow['realm'] as String
-    );
-  }
-
   Future<List<Conversation>> getConversations() async {
-    final profile = await getProfile();
-    if (profile == null) return [];
-
     final userRows = await db.query("users");
     final users = userRows.map(_toUserDto);
     final Map<String, UserDto> usersById = Map.fromIterable(users, key: (i) => i.id, value: (i) => i);
@@ -154,7 +108,7 @@ class SqlChatDao implements ChatDao {
     final conversationRows = await db.query("conversations");
     return conversationRows.map((row) =>
         Conversation(
-            you: profile.user,
+            // you: profile.user,
             id: row['id'] as String,
             name: row['name'] as String,
             users: (row['userIds'] as String)
@@ -201,7 +155,6 @@ class SqlChatDao implements ChatDao {
 
   @override
   Future<void> clear() async {
-    await db.delete("auth");
     await db.delete("users");
     await db.delete("conversations");
     await db.delete("messages");
